@@ -25,7 +25,6 @@ livros = [
 ]
 
 app = Flask(__name__)
-app.config['DEBUG'] = True
 
 @app.route('/')
 def homepage():
@@ -70,4 +69,7 @@ def del_livro(id):
       del livros[indice]
       return jsonify(livros)
       
-app.run()
+if __name__ == '__main__':
+    import os
+    port = int(os.environ.get('PORT', 5000))  # Define a porta dinamicamente
+    app.run(host='0.0.0.0', port=port)  # 0.0.0.0 aceita conexões externas
