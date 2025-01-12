@@ -33,10 +33,12 @@ def homepage():
 
 @app.route('/livros', methods=['GET'])
 def listar_livros():
+  # lista todos os livros do banco de dados
   return jsonify(livros)
 
 @app.route('/livros/<int:id>', methods=['GET'])
 def pegar_livro(id):
+  # busca o livro com id esperado
   for livro in livros:
     if livro['id'] == id:
       return jsonify(livro)
@@ -45,19 +47,24 @@ def pegar_livro(id):
 def editar_livro(id):
   # obter informação enviada pelo usuário
   livro_alterado = request.get_json()
+  # pega o livro e a sua posição na lista
   for indice, livro in enumerate(livros):
+    # compara o id do livro com o id esperado
     if livro['id'] == id:
+      # pega o livro achado e atualiza o conteúdo dele
       livros[indice].update(livro_alterado)
       return jsonify(livros[indice])
 
 @app.route('/livros', methods=['POST'])
 def add_livro():
+  # pega a requisição e adiciona no banco de dados
   novo_livro = request.get_json()
   livros.append(novo_livro)
   return jsonify(livros)
 
 @app.route('/livros/<int:id>', methods=['DELETE'])
 def del_livro(id):
+  # acha o livro com id esperado e deleta ele do banco de dados
   for indice, livro in enumerate(livros):
     if livro['id'] == id:
       del livros[indice]
